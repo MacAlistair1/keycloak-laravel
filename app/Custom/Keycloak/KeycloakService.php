@@ -80,6 +80,7 @@ class KeycloakService
                             'temporary' => false,
                         ],
                     ],
+                    'groups' => ['customer'],
                 ],
             ]);
 
@@ -220,6 +221,98 @@ class KeycloakService
             return $accessToken;
         } catch (\Throwable $th) {
             return "";
+        }
+    }
+
+
+    //not working
+    public function createRole($roleName, $description = null, $clientRole = true)
+    {
+        $token = $this->getToken();
+
+        $url = "{$this->baseUrl}/admin/realms/{$this->realm}/clients/{$this->clientId}/roles";
+
+        $client = new Client([
+            'verify' => false,
+        ]);
+
+        try {
+            $response = $client->post($url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'name' => $roleName,
+                    'description' => $description,
+                    'clientRole' => $clientRole,
+                ],
+            ]);
+
+            return json_decode($response->getBody());
+        } catch (RequestException $e) {
+            // Handle exception
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    public function createGroup($groupName)
+    {
+        $token = $this->getToken();
+
+        $groupsEndpoint = "{$this->baseUrl}/admin/realms/{$this->realm}/groups";
+
+        $client = new Client([
+            'verify' => false,
+        ]);
+
+        try {
+            $response = $client->post($groupsEndpoint, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'name' => $groupName,
+                ],
+            ]);
+
+            return $response;
+        } catch (RequestException $e) {
+            // Handle exception
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+
+    public function assignRoleToGroup($roleName, $groupId)
+    {
+        $token = $this->getToken();
+
+        $url = "{$this->baseUrl}/admin/realms/{$this->realm}/roles/{$roleName}/composites";
+
+        $client = new Client([
+            'verify' => false
+        ]);
+
+        try {
+            $response = $client->post($url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'realm' => $this->realm,
+                    'clientRole' => true,
+                    'composite' => true,
+                    'id' => $groupId,
+                ],
+            ]);
+
+            return json_decode($response->getBody());
+        } catch (RequestException $e) {
+            // Handle exception
+            return ['error' => $e->getMessage()];
         }
     }
 }

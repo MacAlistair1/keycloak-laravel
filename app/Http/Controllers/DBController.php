@@ -20,6 +20,9 @@ class DBController extends Controller
     public function home()
     {
 
+        // dd($this->keycloakService->getToken());
+        // dd($this->keycloakService->createRole('CustomerRop'));
+
         // dd($this->keycloakService->getUsers(['username' => 'jeeven']));
 
         // dd($this->keycloakService->getUser("9ec4f475-6fbe-4e05-87e3-e279aee25dc6"));
@@ -36,21 +39,22 @@ class DBController extends Controller
         // User::where('user_id', 3)->orWhereNull('user_id')->delete();
 
         // $data = [
-        //     'user_id' => 2,
-        //     'user_name' => 'mac',
-        //     'user_email' => 'mac@gmail.com',
+        //     'user_id' => 3,
+        //     'user_name' => 'hypervision',
+        //     'user_email' => 'vision@gmail.com',
         //     'password' => 'password'
         // ];
 
         // $user = User::create($data);
+
 
         // $keycloakUser = [
         //     'username' => $user->user_name,
         //     'email' => $user->user_email,
         //     // 'emailVerified' => true,
         //     // 'enabled' => true,
-        //     'firstName' => 'Mac',
-        //     'lastName' => 'Alistair',
+        //     'firstName' => 'Hyper',
+        //     'lastName' => 'Vision',
         //     'password' => $data['password'],
         // ];
 
