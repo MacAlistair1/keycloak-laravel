@@ -6,6 +6,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Custom\Keycloak\KeycloakService;
+use App\Models\Bill;
 use GuzzleHttp\Exception\RequestException;
 
 class DBController extends Controller
@@ -19,6 +20,7 @@ class DBController extends Controller
 
     public function home()
     {
+        // dd($this->keycloakService->tokenBasedLogin("jeeven", "password"));
 
         // dd($this->keycloakService->getToken());
         // dd($this->keycloakService->createRole('CustomerRop'));
@@ -61,6 +63,11 @@ class DBController extends Controller
         // dd($this->keycloakService->createUser($keycloakUser));
 
         $users = User::get();
+
+        // $bill = Bill::get();
+
+        // dd($bill);
+
 
         return view('home', compact('users'));
     }

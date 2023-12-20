@@ -315,4 +315,25 @@ class KeycloakService
             return ['error' => $e->getMessage()];
         }
     }
+
+    public function tokenBasedLogin($username, $password)
+    {
+
+        $tokenEndpoint = "{$this->baseUrl}/realms/{$this->realm}/protocol/openid-connect/token";
+
+        $response = Http::asForm()->withoutVerifying()->post($tokenEndpoint, [
+            'grant_type' => 'password',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'username' => $username,
+            'password' => $password,
+            'scope' => 'openid',
+        ]);
+
+        try {
+            return  $response->json()['access_token'];
+        } catch (\Throwable $th) {
+            return "";
+        }
+    }
 }
