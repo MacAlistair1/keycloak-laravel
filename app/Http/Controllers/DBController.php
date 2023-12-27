@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Custom\Keycloak\KeycloakService;
-use App\Models\Bill;
 use GuzzleHttp\Exception\RequestException;
 
 class DBController extends Controller
@@ -64,7 +65,7 @@ class DBController extends Controller
 
         $users = User::get();
 
-        // $bill = Bill::get();
+        // $bill = Bill::select('BILLNO', 'CUSTOMER', 'STATUS', 'CREATED_BY', 'CREATED_ON')->get();
 
         // dd($bill);
 
